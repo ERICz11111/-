@@ -1,0 +1,122 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<head>
+    <style> 
+       td{
+	height: 4em;
+	width: 4em;
+    	text-align: center;
+    	box-shadow: 3px 3px 2px 2px #e3e5e5;
+          }
+        tr {
+            	text-align: center;
+            	font-size: 2vmin;  
+            	border: 1px solid rgba(0,191,255, 0.301)
+           
+           }
+        td:hover {
+            	position: relative;
+            	top: -2px;
+            	left: -2px;
+            	box-shadow: 3px 3px 18px rgb(187,255,255);
+           
+        }
+        .cell {
+            	height: 6.18em;
+            	width: 10em;
+            	text-align: center;
+            	-webkit-border-radius: 25px;
+            	border-radius: 25px;
+           
+        }
+        .cell>.detail {
+            	display: none;
+           
+        }
+        .cell>.detail.open {
+            	display: block;
+           
+           	 position: absolute;
+           	 height: 6.18em;
+           	 width: 10em;
+           	 background-color:rgba(255,228,196,0.925);
+        }
+        .nm {
+            	text-align: center;
+            	background-color: 1px solid rgb(132,112,255);
+        }
+        .bgc {
+            	background-color: rgba(250，235，215, 0.925);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <h3 class="nm"> 信息1701张海韬课表</h3>
+    <table id="grid" align="center" bgcolor="white">
+
+    </table>
+
+    <script>
+        let i = -1;
+        let j = -1;
+        let arrY = [" ", "星期一", "星期二", "星期三", "星期四", "星期五","第一节<br/>8:20~10:00", "Web应用开发技术", "大学英语四级", "管理信息系统",
+            "运营管理", "大学英语四级", "第二节<br/>10:20~12:00", "毛概", "管理科学基础", "毛概", "管理科学基础", "运营管理", "第三节<br/>14:00~15:40", "管理信息系统", "形势与政策",
+            "会计学", "体育", "毛概", "第四节<br/>16:00~17:40", "电子商务", "数据库管理及应用", " ", "会计学", " ","第五节<br/>18：30~20：10","爱因斯坦到霍金<br/>的宇宙观","","","",""];
+        let arrX = ["","","","","","","",
+            "第一公共教学楼C411 任课教师：吕成功 周数：1~15周", "第一公共教学楼C221 任课教师：张蔚 周数：1~17周",
+            "第一公共教学楼C105 任课教师：刘烨 周数：1~15周（单周）", "第一公共教学楼B405 任课教师：刘亮 周数：1~15周（单周）",
+            "第一公共教学楼C221 任课教师：张蔚 周数：1~17周", "", "西区第一公共教学楼A120 任课教师：顾洪英 周数：1~16周",
+            "第一公共教学楼C411 任课教师：赵方方 周数：3~17周", "第一公共教学楼A120 任课教师：顾洪英 周数：1~16周",
+            "第一公共教学楼C411 任课教师：赵方方 周数：3~17周", "第一公共教学楼B405 任课教师：刘亮 周数：1~15周（单周）", "",
+            "第一公共教学楼C105 任课教师：刘烨 周数：1~15周（单周）", "第一公共教学楼C123 任课教师：邵夏 李坤 周数：5~7周",
+            "第一公共教学楼B101 任课教师：姜红 周数：1~17周（单周）", "体育馆 任课教师：田老师 周数：1~16周",
+            "第一公共教学楼C411 任课教师：顾洪英 周数：1~16周", " ", "第一公共教学楼B303 任课教师：张亮 周数：3~17周",
+            "第一公共教学楼C109 任课教师：吴君 周数：1~15周", "", "第一公共教学楼B101 任课教师：姜红 1~17周上","","","第一公共教学楼A111 任课教师：王俭平 周数：4-13周","","","",""]
+        let f = function (event) {
+            console.log(i, j, i * 6 + j);
+        }
+        let tblEl = document.getElementById('grid');
+        for (let i = 0; i < 6; i++) {
+            let trEl = document.createElement('tr');
+            for (let j = 0; j < 6; j++) {
+                let tdEl = document.createElement('td');
+                let divEl = document.createElement('div')
+                divEl.className = 'cell';                     
+                let detailDivEl = document.createElement('div');
+                detailDivEl.className = 'detail';
+                detailDivEl.innerHTML = arrX[i * 6 + j];
+                detailDivEl.onmouseout = function (event) {
+                    let names = detailDivEl.className.split(' ');
+                    names = names.filter((x) => x != 'open')
+                    detailDivEl.className = names.join(' ');
+                }
+                divEl.append(detailDivEl);
+                let briefDivEl = document.createElement('div');
+                briefDivEl.innerHTML = arrY[i * 6 + j];
+                divEl.append(briefDivEl);                   
+                tdEl.onclick = function (event) {             
+                    let names = detailDivEl.className.split(' ');
+                    if (names.indexOf('open') >= 0) {
+                        names = names.filter((x) => x != 'open')
+                    } else {
+                        names.push('open');
+                    }
+                    console.log(names);
+                    detailDivEl.className = names.join(' ');
+                };
+                let classNames = [];
+                if (i == 0 || j == 0)
+                    classNames.push('bgc'); 
+                tdEl.className = classNames.join(' ');
+                tdEl.append(divEl);
+                trEl.append(tdEl);
+            }
+            tblEl.append(trEl);
+        }
+    </script>
+</body>
+
+</html>
